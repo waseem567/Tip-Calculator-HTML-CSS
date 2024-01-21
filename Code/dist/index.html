@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./images/favicon-32x32.png" type="image/x-icon">
+    <title>Day 4</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
+        .main-bg {
+            background: #c5e4e7;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+        }
+
+        .bg-cyan {
+            background: #00474b;
+        }
+
+        .cyan {
+            color: #22c2a9;
+        }
+
+        .t-cyan {
+            color: #00474b;
+        }
+
+        .btn-bg {
+            background: #22c2a9;
+        }
+        /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+    </style>
+</head>
+
+<body class="main-bg">
+    <div class="container mx-auto">
+        <div class="w-[97%] md:w-[80%] lg:w-[65%] xl:w-[800px] mx-auto pb-12 md:pb-2">
+            <!-- top text -->
+            <h1 class="text-cyan-600 text-center font-bold text-2xl tracking-[10px] py-10">SPLI <br> TTER</h1>
+            <!-- tip calc card -->
+            <div class="flex justify-center items-stretch flex-col md:flex-row gap-1 bg-white p-5 rounded-lg">
+                <div class="flex-1 bg-white lg:p-5 md:p-3 p-1">
+                    <div>
+                        <p class="py-3">Bill</p>
+                        <div class="relative">
+                            <input
+                                class="border block w-full text-end py-2 text-2xl bg-gray-200 font-bold t-cyan focus:outline-none px-1"
+                                type="number" id="bill" onkeyup="checkBillValid()" onblur="onBlurBill()">
+                            
+                            <span
+                                class="absolute left-2 top-[50%] translate-y-[-50%] font-bold text-2xl text-gray-400">$</span>
+                        </div>
+                        <div class="h-[10px]">
+                        <span class="text-red-600 text-[9px] w-full text-end error hidden">Cannot be less than
+                            1</span>
+                            </div>
+                    </div>
+                    <div>
+                        <p class="py-3">Select Tip %</p>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2 justify-between">
+                            <div>
+                                <input
+                                    class="block w-full bg-cyan hover:opacity-80 py-2 text-white font-bold text-2xl cursor-pointer rounded-md hover:bg-cyan-700 btns"
+                                    type="button" value="5%" onclick="tipCalculateHandler(0.05, 1)">
+                            </div>
+                            <div>
+                                <input
+                                    class="block w-full bg-cyan hover:opacity-80 py-2 text-white font-bold text-2xl cursor-pointer rounded-md hover:bg-cyan-700 btns"
+                                    type="button" value="10%" onclick="tipCalculateHandler(0.10, 2)">
+                            </div>
+                            <div>
+                                <input
+                                    class="block w-full bg-cyan hover:opacity-80 py-2 text-white font-bold text-2xl cursor-pointer rounded-md hover:bg-cyan-700 btns"
+                                    type="button" value="15%" onclick="tipCalculateHandler(0.15, 3)">
+                            </div>
+                            <div>
+                                <input
+                                    class="block w-full bg-cyan hover:opacity-80 py-2 text-white font-bold text-2xl cursor-pointer rounded-md hover:bg-cyan-700 btns"
+                                    type="button" value="25%" onclick="tipCalculateHandler(0.25, 4)">
+                            </div>
+                            <div>
+                                <input
+                                    class="block w-full bg-cyan hover:opacity-80 py-2 text-white font-bold text-2xl cursor-pointer rounded-md hover:bg-cyan-700 btns"
+                                    type="button" value="50%" onclick="tipCalculateHandler(0.50, 5)">
+                            </div>
+                            <div>
+                                <input
+                                    class="block w-full bg-gray-200 py-2 t-cyan font-bold text-xl text-center h-full rounded-md"
+                                    type="number" placeholder="Custom" id="custom" onkeyup="tipCalculateHandler(-1,-1)" onblur="checkingCustomValid()">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="h-[10px]">
+                    <span class="text-red-600 text-[9px] w-full text-end error    hidden">Cannot be 0 or less</span>
+                    </div>
+                    <div>
+                        <p class="py-3">Number of people</p>
+                        <div class="relative">
+                            <input
+                                class="border block w-full text-end py-2 text-2xl bg-gray-200 font-bold focus:outline-none px-1"
+                                type="number" id="people" onkeyup="checkPplValidity()" onblur="onBlurPeople()">
+                            <img class="absolute left-2 top-[50%] translate-y-[-50%]" src="./images/icon-person.svg"
+                                alt="icon">
+                        </div>
+                        <div class="h-[13px]">
+                        <span class="text-red-600 text-[9px] w-full text-end error hidden">Cannot be 0 or Decimal</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 bg-cyan rounded-lg p-5">
+                    <div class="flex justify-between flex-col h-full gap-10 md:gap-2">
+                        <div class="flex gap-4 flex-col">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-white">Tip Amount</p>
+                                    <p class="cyan text-sm">/ person</p>
+                                </div>
+                                <div class="cyan text-[2rem]" id="tip-amount"></div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-white">Total</p>
+                                    <p class="cyan text-sm">/ person</p>
+                                </div>
+                                <div class="cyan text-[2rem]" id="total"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="block w-full btn-bg py-3 font-extrabold rounded hover:opacity-90 hover:text-white"
+                                onclick="resetHandler()">RESET</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // references of elements
+        const bill = document.getElementById("bill");
+        const people = document.getElementById("people");
+        const custom = document.getElementById("custom");
+        const tipAmount = document.getElementById("tip-amount");
+        const total = document.getElementById("total");
+        const buttons = document.querySelectorAll(".btns");
+        const errors = document.querySelectorAll(".error");
+        // setting initially
+        tipAmount.innerHTML = "$00.00";
+        total.innerHTML = "$00.00";
+        // tip calculator handler 
+        function tipCalculateHandler(percentage, btnNumber) {
+            let val = bill.value.trim();
+            let ppl = people.value.trim();
+            // checking empty
+            if (val.trim() === "" || parseInt(val) < 1) {
+                errors[0].style.display = "block";
+                bill.style.border = "1px solid red";
+                return;
+            }
+            errors[0].style.display = "none";
+            bill.style.border = "none";
+            if (ppl.trim() === "" || parseInt(ppl) < 1) {
+                errors[2].style.display = "block";
+                people.style.border = "1px solid red";
+                return;
+            }
+            errors[2].style.display = "none";
+            people.style.border = "none";
+            // caculating...
+            let tip;
+            if (percentage === -1) {
+                if (custom.value.trim() === "" || parseFloat(custom.value.trim()) < 0.1) {
+                    custom.style.border = "1px solid red";
+                    errors[1].style.display = "block";
+                    return;
+                } else {
+                    buttons.forEach((el, i) => {
+                buttons[i].style.backgroundColor = "#00474b";
+            })
+                    custom.style.border = "none";
+                    errors[1].style.display = "none";
+                    bill.style.border = "none";
+                    let c_v = parseFloat(custom.value)
+                    let customTip = c_v / 100;
+                    console.log(customTip)
+                    tip = parseFloat(val) * customTip;
+                }
+            } else {
+                tip = parseFloat(val) * percentage;
+            }
+            if (btnNumber !== -1) {
+                custom.value = "";
+                buttons.forEach((el, i) => {
+                    if (i === btnNumber - 1) {
+                        buttons[btnNumber - 1].style.backgroundColor = "#22c2a9";
+                    } else {
+                        buttons[i].style.backgroundColor = "#00474b";
+                    }
+                })
+            }
+            let totalTip = tip
+            tip /= parseInt(ppl);
+            tipAmount.innerHTML = `$${tip.toFixed(2)}`;
+            let ttl = parseFloat(val) + parseFloat(totalTip);
+            ttl /= parseInt(ppl);
+            total.innerHTML = `$${ttl.toFixed(2)}`
+        }
+        // on reset handler
+        function resetHandler() {
+            buttons.forEach((el, i) => {
+                buttons[i].style.backgroundColor = "#00474b";
+            })
+            tipAmount.innerHTML = "$00.00";
+            total.innerHTML = "$00.00";
+            bill.value = "";
+            people.value = "";
+            bill.style.border = "none";
+            people.style.border = "none";
+        }
+        // checking bill validity
+        function checkBillValid(){
+            if(bill.value.trim() <= 0){
+                errors[0].style.display = "block";
+                bill.style.border = "1px solid red";
+                return; 
+            }else{
+                errors[0].style.display = "none";
+                bill.style.border = "none";
+            }
+        }
+        // checking people validity
+        function checkPplValidity(){
+            let n = Number(people.value.trim());
+            if(people.value.trim() <= 0 || n === n && n % 1 !== 0){
+            errors[2].style.display = "block";
+            people.style.border = "1px solid red";
+            return;
+        }else{
+            errors[2].style.display = "none";
+            people.style.border = "none";
+        }
+    }
+    // blur checking custom validity
+    function checkingCustomValid(){
+    buttons.forEach((el, i) => {
+                buttons[i].style.backgroundColor = "#00474b";
+            })
+        if(custom.value.trim() === ""){
+        tipAmount.innerHTML = "$00.00";
+            total.innerHTML = "$00.00";
+            custom.style.border = "none";
+            errors[1].style.display = "none";
+            return;
+        }
+    }
+    // on bill blur 
+    function onBlurBill(){
+        if(bill.value.trim() === ""){
+            errors[0].style.display = "none";
+                bill.style.border = "none";
+                return;
+        }
+    }
+    // people blur
+    function onBlurPeople(){
+        if(people.value.trim() === ""){
+            errors[2].style.display = "none";
+            people.style.border = "none";
+            return;
+        }
+       
+    }
+    </script>
+</body>
+
+</html>
